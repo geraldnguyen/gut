@@ -1,0 +1,49 @@
+name: Build and Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: linux
+            arch: amd64
+            binary_name: gut-linux-amd64
+          - os: linux
+            arch: arm64
+            binary_name: gut-linux-arm64
+          - os: windows
+            arch: amd64
+            binary_name: gut-windows-amd64.exe
+          - os: windows
+            arch: arm64
+            binary_name: gut-windows-arm64.exe
+          - os: darwin
+            arch: amd64
+            binary_name: gut-darwin-amd64
+          - os: darwin
+            arch: arm64
+            binary_name: gut-darwin-arm64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          
+      - name: Build binary
+        run: |
+          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -ldflags "-s -w" -o ${{ matrix.binary_name }} .
+          
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ matrix.binary_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

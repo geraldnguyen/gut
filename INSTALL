@@ -1,0 +1,211 @@
+# Installation Guide for gut
+
+This document provides detailed installation instructions for gut on all supported platforms.
+
+## System Requirements
+
+- Operating System: Windows 10+, macOS 10.14+, or Linux (any modern distribution)
+- Architecture: x86_64 (amd64) or ARM64
+- Git must be installed and accessible in PATH
+
+## Installation Methods
+
+### Method 1: Download Pre-built Binaries (Recommended)
+
+#### Step 1: Download the Correct Binary
+
+Visit the [releases page](https://github.com/geraldnguyen/gut/releases) and download the appropriate binary for your system:
+
+**Linux:**
+- Intel/AMD 64-bit: `gut-linux-amd64`
+- ARM 64-bit: `gut-linux-arm64`
+
+**Windows:**
+- Intel/AMD 64-bit: `gut-windows-amd64.exe`
+- ARM 64-bit: `gut-windows-arm64.exe`
+
+**macOS:**
+- Intel Mac: `gut-darwin-amd64`
+- Apple Silicon (M1/M2): `gut-darwin-arm64`
+
+#### Step 2: Install the Binary
+
+**Linux & macOS:**
+```bash
+# Download (replace URL with the correct binary for your system)
+wget https://github.com/geraldnguyen/gut/releases/download/v1.0.0/gut-linux-amd64
+
+# Make executable
+chmod +x gut-linux-amd64
+
+# Rename and move to system PATH
+sudo mv gut-linux-amd64 /usr/local/bin/gut
+
+# Alternative: Install to user directory (no sudo required)
+mkdir -p ~/.local/bin
+mv gut-linux-amd64 ~/.local/bin/gut
+# Make sure ~/.local/bin is in your PATH
+```
+
+**Windows:**
+1. Download the appropriate `.exe` file
+2. Rename it to `gut.exe`
+3. Move it to a directory in your PATH:
+   - System-wide: `C:\Windows\System32\`
+   - User-specific: `C:\Users\[YourUsername]\AppData\Local\Microsoft\WindowsApps\`
+   - Or create a custom directory and add it to PATH
+
+#### Step 3: Verify Installation
+```bash
+gut --version
+```
+
+### Method 2: Build from Source
+
+#### Prerequisites
+- Go 1.19 or later
+- Git
+- Make (optional but recommended)
+
+#### Step 1: Install Go
+**Linux:**
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install golang-go
+
+# CentOS/RHEL/Fedora
+sudo yum install golang
+# or
+sudo dnf install golang
+
+# Arch Linux
+sudo pacman -S go
+```
+
+**macOS:**
+```bash
+# Using Homebrew
+brew install go
+
+# Or download from https://golang.org/dl/
+```
+
+**Windows:**
+Download and install from https://golang.org/dl/
+
+#### Step 2: Clone and Build
+```bash
+# Clone the repository
+git clone https://github.com/geraldnguyen/gut.git
+cd gut
+
+# Build for your platform
+make build
+
+# Or build for all platforms
+make build-all
+
+# Install locally (Linux/macOS only)
+sudo make install
+```
+
+### Method 3: Package Managers (Future)
+
+Package manager support is planned for future releases:
+- Homebrew (macOS/Linux)
+- Chocolatey (Windows) 
+- APT/YUM repositories (Linux)
+
+## Post-Installation Setup
+
+### 1. Verify Git Installation
+```bash
+git --version
+```
+If git is not installed, install it first:
+
+**Linux:**
+```bash
+# Ubuntu/Debian
+sudo apt install git
+
+# CentOS/RHEL
+sudo yum install git
+
+# Fedora
+sudo dnf install git
+
+# Arch Linux
+sudo pacman -S git
+```
+
+**macOS:**
+```bash
+# Using Homebrew
+brew install git
+
+# Or install Xcode Command Line Tools
+xcode-select --install
+```
+
+**Windows:**
+Download from https://git-scm.com/download/win
+
+### 2. Test gut
+```bash
+gut status
+```
+
+You should see a witty message followed by the git status output.
+
+## Troubleshooting
+
+### "Command not found" Error
+- Ensure the binary is in a directory listed in your PATH
+- Check file permissions (must be executable on Linux/macOS)
+- Verify you downloaded the correct binary for your architecture
+
+### "Git not found" Error
+- Install git using the commands above
+- Ensure git is in your PATH: `which git` (Linux/macOS) or `where git` (Windows)
+
+### Permission Denied (Linux/macOS)
+```bash
+chmod +x /path/to/gut
+```
+
+### PATH Issues
+**Linux/macOS:**
+Add to `~/.bashrc`, `~/.zshrc`, or your shell's config file:
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+**Windows:**
+1. Search for "Environment Variables" in the Start menu
+2. Click "Environment Variables"
+3. Edit the PATH variable
+4. Add the directory containing gut.exe
+
+## Uninstallation
+
+To remove gut:
+
+**Linux/macOS:**
+```bash
+sudo rm /usr/local/bin/gut
+# or
+rm ~/.local/bin/gut
+```
+
+**Windows:**
+Delete `gut.exe` from the directory where you installed it.
+
+## Support
+
+If you encounter issues:
+1. Check this installation guide
+2. Verify your system meets the requirements
+3. Check the [GitHub Issues](https://github.com/geraldnguyen/gut/issues)
+4. Create a new issue if your problem isn't already reported
